@@ -4,6 +4,8 @@
   var root = document.documentElement;
   var I18N = window.I18N;
   var LANGS = ['tr', 'en', 'ar'];
+  var LANG_CODES = { tr: 'TR', en: 'EN', ar: 'AR' };
+  var LANG_NAMES = { tr: 'Türkçe', en: 'English', ar: 'العربية' };
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
@@ -50,8 +52,11 @@
       eachAttr(el, function (attr, key) { el.setAttribute(attr, t(key)); });
     });
     $$('[data-lang]').forEach(function (btn) {
-      btn.setAttribute('aria-pressed', String(btn.getAttribute('data-lang') === lang));
+      if (btn.getAttribute('data-lang') === lang) btn.setAttribute('aria-current', 'true');
+      else btn.removeAttribute('aria-current');
     });
+    $('#lang-current').textContent = LANG_CODES[lang];
+    $('#lang-btn').setAttribute('aria-label', t('a11y.lang') + ': ' + LANG_NAMES[lang]);
     startRoles();
     if (remember) store('lang', lang);
   }
@@ -86,8 +91,26 @@
     roleTimer = setTimeout(tick, 2200);
   }
 
+  /* Dil menüsü: tek düğme, tıklayınca diğer diller açılır */
+  var langBox = $('#lang');
+  var langBtn = $('#lang-btn');
+  var langMenu = $('#lang-menu');
+  function setLangMenu(open) {
+    langMenu.hidden = !open;
+    langBtn.setAttribute('aria-expanded', String(open));
+    if (open) { var cur = $('[aria-current="true"]', langMenu); if (cur) cur.focus(); }
+  }
+  langBtn.addEventListener('click', function () { setLangMenu(langMenu.hidden); });
+  document.addEventListener('click', function (e) { if (!langBox.contains(e.target)) setLangMenu(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !langMenu.hidden) { setLangMenu(false); langBtn.focus(); }
+  });
   $$('[data-lang]').forEach(function (btn) {
-    btn.addEventListener('click', function () { setLang(btn.getAttribute('data-lang'), true); });
+    btn.addEventListener('click', function () {
+      setLang(btn.getAttribute('data-lang'), true);
+      setLangMenu(false);
+      langBtn.focus();
+    });
   });
   setLang(root.lang, false); // başlangıç dili <head> içindeki betikte seçildi
 
@@ -96,10 +119,6 @@
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     store('theme', next);
-  });
-  // Kullanıcı elle seçmediyse sistem temasını izle
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-    if (!store('theme')) root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
   });
 
   /* ---------- Mobil menü ---------- */

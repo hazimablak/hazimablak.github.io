@@ -210,15 +210,33 @@ button { font-family: inherit; }
 .nav a[aria-current="true"]::after { transform: scaleX(1); }
 
 .tools { display: flex; align-items: center; gap: 8px; }
-.langs { display: flex; padding: 3px; border-radius: 999px; background: var(--tile); }
-.langs button {
-  min-width: 36px; min-height: 30px; padding: 0 8px; border: 0; border-radius: 999px;
-  background: transparent; color: var(--muted); font-size: .8125rem; font-weight: 600; cursor: pointer;
-  transition: background-color .2s ease, color .2s ease;
+
+.lang { position: relative; }
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 10px 0 12px; padding-inline: 12px 10px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink);
+  font-size: .8125rem; font-weight: 600; cursor: pointer;
+  transition: border-color .2s ease, color .2s ease;
 }
-.langs button[lang="ar"] { font-size: 1rem; }
-.langs button:hover { color: var(--ink); }
-.langs button[aria-pressed="true"] { background: var(--card); color: var(--accent-text); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
+.lang-btn:hover, .lang-btn[aria-expanded="true"] { border-color: var(--accent); color: var(--accent-text); }
+.lang-btn .ic { width: 16px; height: 16px; }
+.lang-btn .chev { transition: transform .25s var(--ease); }
+.lang-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); inset-inline-end: 0; z-index: 70; min-width: 168px;
+  padding: 6px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-up);
+  animation: pop .2s var(--ease) both;
+}
+.lang-menu[hidden] { display: none; }
+.lang-menu button {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%;
+  padding: 10px 12px; border: 0; border-radius: 10px; background: transparent; color: var(--ink);
+  font-size: .9375rem; font-weight: 500; text-align: start; cursor: pointer;
+}
+.lang-menu button:hover, .lang-menu button:focus-visible { background: var(--tile); outline: none; }
+.lang-menu .tick { width: 16px; height: 16px; color: var(--accent); visibility: hidden; }
+.lang-menu [aria-current="true"] { color: var(--accent-text); font-weight: 600; }
+.lang-menu [aria-current="true"] .tick { visibility: visible; }
 
 .icon-btn {
   width: 40px; height: 40px; display: grid; place-items: center;
@@ -278,7 +296,11 @@ button { font-family: inherit; }
 .s-instagram { --brand: #e1306c; }
 .s-instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888) !important; }
 .s-whatsapp { --brand: #25d366; }
-.s-mail { --brand: var(--accent); }
+.s-mail { --brand: #ea4335; }
+.s-mail .g-color { display: none; stroke: none; }
+.social .s-mail:hover { background: #fff; border-color: #f3d3cf; }
+.s-mail:hover .g-mono { display: none; }
+.s-mail:hover .g-color { display: block; }
 
 .hero-visual { position: relative; justify-self: center; width: min(100%, 400px); }
 .photo {
@@ -397,6 +419,8 @@ button { font-family: inherit; }
 }
 .project.more h3 { font-size: clamp(1.375rem, 2.4vw, 1.75rem); font-weight: 800; }
 .project.more p { max-width: 44ch; font-size: 1rem; }
+
+.app-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 
 /* ---------- 9. Hakkımda ---------- */
 .about { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(40px, 7vw, 96px); }
