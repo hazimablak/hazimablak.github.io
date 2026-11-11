@@ -7,7 +7,7 @@ Saf HTML, CSS ve JavaScript ile yazıldı. Derleme adımı ve bağımlılık yok
 ## Özellikler
 
 - Türkçe, İngilizce ve Arapça. Dil, sayfa yenilenmeden değişir; Arapçada sayfa sağdan sola döner.
-- Açık ve koyu tema. İlk açılışta sistem ayarına uyar, seçim tarayıcıda saklanır.
+- Açık ve koyu tema. İlk açılış koyu temadır, ziyaretçinin seçimi tarayıcıda saklanır.
 - Telefon, tablet ve masaüstünde çalışan tek sayfa.
 - Kategori filtreli proje ızgarası; ilk açılışta öne çıkan projeler, düğmeyle tamamı.
 - Animasyonlar: açılış, kaydırınca belirme, sayaçlar, dönen unvan, kartlarda fareyi izleyen ışık. Sistemde "hareketi azalt" açıksa kapanır.
@@ -30,6 +30,8 @@ Saf HTML, CSS ve JavaScript ile yazıldı. Derleme adımı ve bağımlılık yok
 
 **Metin değiştirmek:** Türkçesini `index.html` içinde, İngilizce ve Arapçasını `assets/js/i18n.js` içinde aynı anahtarla değiştir.
 
+Çevrilmesini istediğin her metnin etiketinde `data-i18n="anahtar"` olmalı ve o anahtar `i18n.js` içinde hem `en` hem `ar` bölümünde bulunmalı. Anahtar yoksa ya da yalnızca Türkçesini değiştirdiysen, dil değişince o metin eski hâliyle veya Türkçe kalır.
+
 **Proje eklemek:** `index.html` içindeki `id="project-grid"` ızgarasına bir `<article class="card project reveal">` kopyala.
 
 - `data-cat` ile kategorisini yaz: `mobile`, `web`, `ai`, `other` (birden fazlaysa boşlukla ayır).
@@ -40,7 +42,7 @@ Saf HTML, CSS ve JavaScript ile yazıldı. Derleme adımı ve bağımlılık yok
 
 **İkon eklemek:** İkonlar `index.html` başındaki gizli `<svg>` içinde `<symbol>` olarak durur ve `<svg class="ic"><use href="#i-ad"/></svg>` ile çağrılır. Yeni ikon için [lucide.dev](https://lucide.dev) sitesinden SVG'yi kopyalayıp aynı biçimde bir `<symbol>` ekle.
 
-**Dil eklemek:** `i18n.js` içine yeni bir dil bölümü ekle, `main.js` içindeki `LANGS` listesine ve `index.html` başındaki betikteki listeye dil kodunu yaz, üst çubuğa bir `data-lang` düğmesi ekle.
+**Dil eklemek:** `i18n.js` içine yeni bir dil bölümü ekle, `main.js` içindeki `LANGS` listesine ve `index.html` başındaki betikteki listeye dil kodunu yaz, üst çubuktaki `id="lang-menu"` listesine bir `data-lang` düğmesi ekle, `main.js` içindeki `LANG_CODES` ve `LANG_NAMES` listelerine de dilin kısaltmasını ve adını yaz.
 
 ## Yerelde çalıştırmak
 
