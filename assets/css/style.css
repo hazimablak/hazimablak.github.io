@@ -577,7 +577,12 @@ button { font-family: inherit; }
 }
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-visual { width: min(78%, 320px); margin-block-start: 8px; }
+  /* Tek sütunda yüzen rozetler fotoğrafı kapatıyor; aynı bilgiler hemen alttaki
+     sayılar bölümünde var. Fotoğraf düz ve sade kalır. */
+  .hero-visual { width: min(100%, 440px); margin-block-start: 32px; }
+  .chip { display: none; }
+  .photo, [dir="rtl"] .photo { transform: none; }
+  .photo img { aspect-ratio: 1 / 1; object-position: 50% 30%; }
   .apps, .about, .two-col, .contact-card { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 36px; }
   .stat:nth-child(3) { border-inline-start: 0; }
@@ -592,12 +597,7 @@ button { font-family: inherit; }
 .project.more { grid-column: auto; }
   .project { min-height: 0; }
   .actions .btn { flex: 1 1 100%; }
-  .chip { padding: 8px 12px; padding-inline: 8px 12px; gap: 8px; }
-  .chip .tile { width: 32px; height: 32px; }
-  .chip-1 { top: -5%; inset-inline-start: -10%; }       /* yüzü kapatmasın */
-  .chip-2 { top: 54%; inset-inline-end: -12%; }
-  .chip-3 { bottom: 5%; inset-inline-start: -10%; }
-  .hero-visual { margin-block-start: 28px; }
+  .hero-visual { width: 100%; }
   .contact-card { padding: 22px; }
   .contact-list { gap: 10px; }
   .contact-list li { gap: 10px; }
